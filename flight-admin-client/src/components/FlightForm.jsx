@@ -114,13 +114,21 @@ const FlightForm = () => {
         aircraftId: "",
         pilotId: "",
       });
-      navigate("/flights"); // Redirect to flights list after submission
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setFormError(
-          "Conflict: The selected aircraft or pilot is already assigned to another flight."
-        );
-      } else {
+      setFormError("");
+      navigate("/flights");
+    } catch (error) { 
+      if (error.response) {
+        console.log(formError);
+        switch (error.response.status) {
+
+        case 409:
+          setFormError("Conflict: The selected aircraft or pilot is already assigned to another flight.");
+          break;
+        case 400:          
+          setFormError("Departure destination must be different than arrival destination")};
+        
+     }
+      else {
         console.log("Failed to create flight:", error);
       }
     }

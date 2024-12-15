@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import { createAirline } from '../services/airlineService';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate hook
-import { TextField, Button, Container, Typography, Box } from '@mui/material';  // Material-UI components
+import React, { useState } from "react";
+import { createAirline } from "../services/airlineService";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { TextField, Button, Container, Typography, Box } from "@mui/material"; // Material-UI components
 
 const AirlineForm = () => {
   const [newAirline, setNewAirline] = useState({
     id: 1,
-    name: '',
-    yearFounded: '',
-    headquarters: '',
+    name: "",
+    yearFounded: "",
+    headquarters: "",
   });
 
-  const navigate = useNavigate();  // Initialize the navigate function
+  const [formError, setFormError] = useState("");
+
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,17 +24,30 @@ const AirlineForm = () => {
     e.preventDefault();
 
     try {
-      await createAirline(newAirline);  // Create the airline
-      setNewAirline({ id: 1, name: '', yearFounded: '', headquarters: '' });  // Reset form
-      navigate('/airlines');  // Redirect to /airlines after successful form submission
+      await createAirline(newAirline); // Create the airline
+      setNewAirline({ id: 1, name: "", yearFounded: "", headquarters: "" }); // Reset form
+      navigate("/airlines"); // Redirect to /airlines after successful form submission
     } catch (error) {
-      console.log('Failed to create airline:', error);
+      if (error.response && error.response.status === 409) {
+        setFormError(
+          "Conflict: Airline with this name already exists, please find a different one"
+        );
+      } else {
+        console.log("Failed to create airline:", error);
+      }
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ backgroundColor: 'white', padding: 4, borderRadius: 2, boxShadow: 3 }}>
+      <Box
+        sx={{
+          backgroundColor: "white",
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+        }}
+      >
         <Typography variant="h5" component="h2" gutterBottom>
           Create New Airline
         </Typography>
@@ -71,12 +86,18 @@ const AirlineForm = () => {
             required
           />
 
+          {formError && (
+            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+              {formError}
+            </Typography>
+          )}
+
           <Button
             type="submit"
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ padding: 1.5, fontSize: '1rem' }}
+            sx={{ padding: 1.5, fontSize: "1rem" }}
           >
             Create Airline
           </Button>

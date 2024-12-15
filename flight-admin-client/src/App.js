@@ -50,8 +50,9 @@ function App() {
           <Route path="/create-pilot" element={<PilotForm />} />
           <Route path="/flights" element={<Flights/>}/>
           <Route path="/create-flight" element={<FlightForm/>}/>
+          <Route path="/airline/:id" element = {<AirlineDetail/>}/>
         </Routes>
-      </Container>
+      </Container> 
     </Router>
   );
 }
