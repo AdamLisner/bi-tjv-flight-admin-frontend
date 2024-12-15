@@ -10,11 +10,14 @@ import Aircrafts from './pages/Aircrafts';
 import PilotForm from './components/PilotForm';
 import Flights from './pages/Flights';
 import FlightForm from './components/FlightForm';
+import AirlineDetail from './pages/AirlineDetail'; 
+import PilotDetail from './pages/PilotDetail';
+import FlightDetail from './pages/FlightDetail';
+import AircraftDetail from './pages/AircraftDetail';
 
 function App() {
   return (
     <Router>
-      {/* Navigation Bar */}
       <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -48,11 +51,14 @@ function App() {
           <Route path="/aircrafts" element={<Aircrafts />} />
           <Route path="/create-aircraft" element={<AircraftForm />} />
           <Route path="/create-pilot" element={<PilotForm />} />
-          <Route path="/flights" element={<Flights/>}/>
-          <Route path="/create-flight" element={<FlightForm/>}/>
-          <Route path="/airline/:id" element = {<AirlineDetail/>}/>
+          <Route path="/flights" element={<Flights />} />
+          <Route path="/create-flight" element={<FlightForm />} />
+          <Route path="/airlines/:id" element={<AirlineDetail />} /> 
+          <Route path="/pilots/:id" element={<PilotDetail />} />
+          <Route path="/flights/:id" element={<FlightDetail />} />
+          <Route path="/aircrafts/:id" element={<AircraftDetail />} />
         </Routes>
-      </Container> 
+      </Container>
     </Router>
   );
 }

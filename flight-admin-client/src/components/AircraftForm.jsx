@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { createAircraft } from "../services/aircraftService";
-import { getAllAirlines } from "../services/airlineService"; // Assuming you have this service
+import { getAllAirlines } from "../services/airlineService"; 
 import { useNavigate } from "react-router-dom";
 import {
   TextField,
@@ -28,7 +28,6 @@ const AircraftForm = () => {
   const [airlines, setAirlines] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch airlines when component is mounted
   useEffect(() => {
     const fetchAirlines = async () => {
       try {
@@ -61,7 +60,7 @@ const AircraftForm = () => {
         weight: "",
         airlineId: "",
       });
-      navigate("/aircrafts"); // Redirect to aircrafts list after submission
+      navigate("/aircrafts");
     } catch (error) {
       console.log("Failed to create aircraft:", error);
     }

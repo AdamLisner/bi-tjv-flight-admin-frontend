@@ -20,7 +20,7 @@ const FlightForm = () => {
   const [flightData, setFlightData] = useState({
     destinationFrom: "",
     destinationTo: "",
-    occupancy: "",
+    occupancy: 0,
     departureTime: "",
     arrivalTime: "",
     airlineId: "",
@@ -125,7 +125,12 @@ const FlightForm = () => {
           setFormError("Conflict: The selected aircraft or pilot is already assigned to another flight.");
           break;
         case 400:          
-          setFormError("Departure destination must be different than arrival destination")};
+          setFormError("Departure destination must be different than arrival destination")
+          break;
+        default:
+          setFormError("Something really unexpected happened :/");
+
+        };
         
      }
       else {
@@ -134,7 +139,6 @@ const FlightForm = () => {
     }
   };
 
-  // Find selected pilot
   const selectedPilot = pilots.find((pilot) => pilot.id === flightData.pilotId);
 
   return (
@@ -242,22 +246,7 @@ const FlightForm = () => {
             value={flightData.destinationTo}
             onChange={handleInputChange}
           />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            type="number"
-            label="Occupancy"
-            name="occupancy"
-            value={flightData.occupancy}
-            onChange={handleInputChange}
-            inputProps={{
-              max: flightData.aircraftId
-                ? aircrafts.find((a) => a.id === flightData.aircraftId).capacity
-                : undefined,
-            }}
-            disabled={!flightData.aircraftId}
-          />
+          
           <TextField
             margin="normal"
             required

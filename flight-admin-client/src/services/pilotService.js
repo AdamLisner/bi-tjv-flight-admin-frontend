@@ -5,7 +5,7 @@ export const getAllPilots = async () => {
   return response.data;
 };
 
-export const getPilotFromId = async (id) => {
+export const getPilotById = async (id) => {
   const response = await API.get(`/pilots/${id}`);
   return response.data;
 }
@@ -27,7 +27,7 @@ export const updatePilot = async (id, pilotData) => {
 export const getPilotsByAirlineId = async (airlineId) => {
   try {
     const response = await API.get(`pilots/airline/${airlineId}`);
-    return response.data; // assuming the response contains the list of pilots
+    return response.data; 
   } catch (error) {
     console.error("Error fetching pilots for airline:", error);
     throw error;

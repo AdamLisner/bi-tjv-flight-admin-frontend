@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllAircrafts } from '../services/aircraftService';
+import { deleteAircraft, getAllAircrafts } from '../services/aircraftService';
 import { 
   Container, 
   Typography, 
@@ -8,37 +8,52 @@ import {
   CardContent, 
   Box, 
   Button, 
+  IconButton,
   CircularProgress, 
   Alert 
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import DeleteIcon from "@mui/icons-material/Delete";
+
+
 
 const Aircrafts = () => {
   const [aircrafts, setAircrafts] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     fetchAircrafts();
   }, []);
 
   const fetchAircrafts = async () => {
-    setLoading(true); // Start loading
-    setError(null); // Reset any previous errors
+    setLoading(true); 
+    setError(null); 
     try {
       const data = await getAllAircrafts();
       setAircrafts(data);
-      setLoading(false); // Stop loading after success
+      setLoading(false); 
     } catch (error) {
       console.error('Failed to fetch aircrafts:', error);
-      setLoading(false); // Stop loading on failure
+      setLoading(false); 
       setError('Failed to fetch aircrafts, please try again later.');
+    }
+  };
+
+  const handleDeleteAircraft = async (id) => {
+    setLoading(true); 
+    try {
+      await deleteAircraft(id); 
+      fetchAircrafts(); 
+    } catch (error) {
+      console.error("Failed to delete aircraft:", error);
+      setLoading(false); 
+      setError("Failed to delete aircraft, please try again later.");
     }
   };
 
   return (
     <Container maxWidth="lg" sx={{ minHeight: '100vh', padding: 4 }}>
-      {/* Header and Button alignment */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
         <Typography variant="h3" gutterBottom>
           Aircrafts
@@ -92,6 +107,14 @@ const Aircrafts = () => {
                       Weight: {aircraft.weight} kg
                     </Typography>
                   </Link>
+                  <Box textAlign="right" mt={2}>
+                    <IconButton
+                      color="secondary"
+                      onClick={() => handleDeleteAircraft(aircraft.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
                 </CardContent>
               </Card>
             </Grid>

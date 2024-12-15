@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Container, Box, Typography, Select, MenuItem, InputLabel, FormControl, CircularProgress } from '@mui/material';
-import { createPilot } from '../services/pilotService'; // Import your createPilot function
-import { getAllAirlines } from '../services/airlineService'; // Import function to get airlines
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
+import { createPilot } from '../services/pilotService'; 
+import { getAllAirlines } from '../services/airlineService';
+import { useNavigate } from 'react-router-dom'; 
 
 const PilotForm = () => {
   const [newPilot, setNewPilot] = useState({
@@ -15,10 +15,10 @@ const PilotForm = () => {
   });
 
   const [airlines, setAirlines] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state for fetching airlines
-  const navigate = useNavigate(); // useNavigate hook for redirection
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); 
 
-  // Fetch the list of airlines when the component mounts
+  
   useEffect(() => {
     const fetchAirlinesList = async () => {
       setLoading(true);
@@ -34,26 +34,23 @@ const PilotForm = () => {
     fetchAirlinesList();
   }, []);
 
-  // Handles input changes and updates the state
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewPilot((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handles form submission and creates the pilot
   const handleCreatePilot = async (e) => {
     e.preventDefault();
 
     try {
-      console.log('Submitting form...'); // Debugging line to check form submission
-      await createPilot(newPilot);  // Call createPilot function to add the new pilot
+      console.log('Submitting form...');
+      await createPilot(newPilot); 
       setNewPilot({
         pilotId: 1, firstName: '', lastName: '', nickname: '', dateOfBirth: '', airlineId: '',
-      });  // Reset form
-
-      // Make sure to log that the redirect is happening
+      });
       console.log('Redirecting to /pilots...');
-      navigate('/pilots'); // Redirect to pilots page after successful creation
+      navigate('/pilots'); 
     } catch (error) {
       console.error('Failed to create pilot:', error);
     }
@@ -108,10 +105,9 @@ const PilotForm = () => {
             onChange={handleInputChange}
             sx={{ marginBottom: 2 }}
             required
-            InputLabelProps={{ shrink: true }}  // Ensures the label stays on top of the input when date is selected
+            InputLabelProps={{ shrink: true }}  
           />
 
-          {/* Airline Select Dropdown */}
           {loading ? (
             <Box textAlign="center" my={2}>
               <CircularProgress />

@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { getAllAirlines, deleteAirline } from "../services/airlineService"; // Import deleteAirline function
+import { getAllAirlines, deleteAirline } from "../services/airlineService";
 import { Link } from 'react-router-dom';
 import { Container, Typography, Grid, Card, CardContent, Box, IconButton, Button, CircularProgress, Alert } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete'; // Import DeleteIcon
+import DeleteIcon from '@mui/icons-material/Delete'; 
 
 const Airlines = () => {
   const [airlines, setAirlines] = useState([]);
-  const [loading, setLoading] = useState(false); // State to manage loading status
-  const [error, setError] = useState(null); // State to manage error
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     fetchAirlines();
   }, []);
 
-  // Fetch all airlines
   const fetchAirlines = async () => {
-    setLoading(true); // Start loading when fetching data
-    setError(null); // Reset any previous errors
+    setLoading(true); 
+    setError(null); 
     try {
       const data = await getAllAirlines();
       setAirlines(data);
-      setLoading(false); // Stop loading once data is fetched
+      setLoading(false); 
     } catch (error) {
       console.error('Failed to fetch airlines:', error);
       setLoading(false);
@@ -28,15 +27,14 @@ const Airlines = () => {
     }
   };
 
-  // Handle delete airline
   const handleDelete = async (airlineId) => {
-    setLoading(true); // Start loading when deleting
+    setLoading(true); 
     try {
-      await deleteAirline(airlineId);  // Call the delete method
-      fetchAirlines();  // Refetch the data after deletion
+      await deleteAirline(airlineId);  
+      fetchAirlines();  
     } catch (error) {
       console.error('Failed to delete airline:', error);
-      setLoading(false); // Stop loading in case of error
+      setLoading(false); 
       setError('Failed to delete airline, please try again later.');
     }
   };
@@ -47,19 +45,17 @@ const Airlines = () => {
         <Typography variant="h3" gutterBottom>
           Airlines
         </Typography>
-        {/* Create New Airline Button on the right */}
         <Button
           component={Link}
           to="/create-airline"
           variant="contained"
-          color="primary" // Blue color
+          color="primary" 
           sx={{ padding: '10px 20px' }}
         >
           Create New Airline
         </Button>
       </Box>
 
-      {/* Show loading spinner or error */}
       {loading && (
         <Box textAlign="center" my={4}>
           <CircularProgress />

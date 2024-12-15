@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createAirline } from "../services/airlineService";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
-import { TextField, Button, Container, Typography, Box } from "@mui/material"; // Material-UI components
+import { useNavigate } from "react-router-dom";
+import { TextField, Button, Container, Typography, Box } from "@mui/material"; 
 
 const AirlineForm = () => {
   const [newAirline, setNewAirline] = useState({
@@ -13,7 +13,7 @@ const AirlineForm = () => {
 
   const [formError, setFormError] = useState("");
 
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate(); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -24,9 +24,9 @@ const AirlineForm = () => {
     e.preventDefault();
 
     try {
-      await createAirline(newAirline); // Create the airline
-      setNewAirline({ id: 1, name: "", yearFounded: "", headquarters: "" }); // Reset form
-      navigate("/airlines"); // Redirect to /airlines after successful form submission
+      await createAirline(newAirline); 
+      setNewAirline({ id: 1, name: "", yearFounded: "", headquarters: "" }); 
+      navigate("/airlines"); 
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setFormError(

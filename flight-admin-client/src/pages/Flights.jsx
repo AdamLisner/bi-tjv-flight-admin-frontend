@@ -15,23 +15,23 @@ import {
 
 const Flights = () => {
   const [flights, setFlights] = useState([]);
-  const [loading, setLoading] = useState(false); // State to manage loading
-  const [error, setError] = useState(null); // State to manage errors
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); 
 
   useEffect(() => {
     fetchFlights();
   }, []);
 
   const fetchFlights = async () => {
-    setLoading(true); // Start loading
-    setError(null); // Reset any previous errors
+    setLoading(true); 
+    setError(null); 
     try {
       const data = await getAllFlights();
       setFlights(data);
-      setLoading(false); // Stop loading once data is fetched
+      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch flights:", error);
-      setLoading(false); // Stop loading in case of an error
+      setLoading(false);
       setError("Failed to fetch flights, please try again later.");
     }
   };
