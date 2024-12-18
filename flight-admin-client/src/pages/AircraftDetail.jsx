@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getAircraftById } from "../services/aircraftService"; 
-import { Container, Typography, Box, Divider } from "@mui/material";
+import { Container, Typography, Box, Divider, Alert } from "@mui/material";
 
 const AircraftDetail = () => {
   const { id } = useParams(); 
@@ -17,18 +17,25 @@ const AircraftDetail = () => {
       const data = await getAircraftById(id); 
       setAircraft(data);
     } catch (err) {
-      console.error("Failed to fetch aircraft details:", err);
-      setError("Unable to load aircraft details. Please try again later.");
+      switch(err.response.status) {
+        case 404:
+          setError("No aircraft found");
+          break;
+        case 400:
+          setError("Something went wrong");
+          break;
+        default:
+          setError("Unable to load aircraft details. Please try again later.");
+
+      }
     }
   };
 
   if (error) {
     return (
-      <Container>
-        <Typography color="error" variant="h6">
-          {error}
-        </Typography>
-      </Container>
+      <Box mt={4}>
+        <Alert severity="error">{error}</Alert>
+      </Box>
     );
   }
 
